@@ -1,0 +1,58 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load socialaccount %}
+{% block content %}
+{% comment %} {% if messages %}
+  <div>
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %} {% endcomment %}
+
+
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="mb-4 text-center">Sign in</h2>
+      <form method="post" novalidate>
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+        
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger small">
+                        {{ field.errors|striptags }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="mb-3">
+          <a href="{% url 'password_reset' %}">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Sign in</button>
+    </form>
+    <br/>
+    <div class="text-center">OR</div>
+    <br/>
+    <a href="{% provider_login_url 'google' %}" class="btn btn-danger btn-block w-100">
+      <i class="fab fa-google"></i> Sign in with Google
+    </a>
+      <div class="mt-3 text-center">
+        <span>Don't have an account? <a href="{% url 'customerregistration' %}">Sign up</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

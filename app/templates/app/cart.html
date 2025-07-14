@@ -1,0 +1,254 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Cart</h1>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hero Section -->
+
+
+
+<div class="untree_co-section before-footer-section">
+  {% if cart %}
+<div class="container">
+  <div class="row mb-5">
+    <form class="col-md-12" method="post">
+      {% csrf_token %}
+      <div class="site-blocks-table">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="product-thumbnail">Image</th>
+              <th class="product-name">Product</th>
+              <th class="product-price">Price</th>
+              <th class="product-quantity">Quantity</th>
+              <th class="product-total">Total</th>
+              <th class="product-remove">Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in cart %}
+            <tr>
+              <td class="product-thumbnail">
+                <img src="{{c.item.product.image.url}}" alt="Image" class="img-fluid">
+              </td>
+              <td class="product-name">
+                <h2 class="h5 text-black">{{c.item.product.title}}</h2>
+              </td>
+              <td>${{c.item.product.price}}</td>
+              <td>
+                <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
+                  
+                  <div class="input-group-prepend">
+                    <a pid={{c.item.product.id}}>
+                    <button class="btn btn-outline-black decrease" type="button">&minus;</button>
+                  </a>
+                  </div>
+                  <input readonly type="text" class="form-control text-center quantity-amount" value="{{c.item.quantity}}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                  <div class="input-group-append">
+                    <a pid={{c.item.product.id}}>
+                    <button class="btn btn-outline-black increase" type="button">&plus;</button>
+                  </a>
+                  </div>
+                </div>
+
+              </td>
+              <td class="product-total"><span>{{c.total}}</span></td>
+              <td><a href="#" class="btn btn-black btn-sm remove-cart" pid={{c.item.product.id}}>X</a></td>
+            </tr>
+            {% endfor %}
+
+           
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row mb-5">
+        {% comment %} <div class="col-md-6 mb-3 mb-md-0">
+          <button class="btn btn-black btn-sm btn-block">Update Cart</button>
+        </div> {% endcomment %}
+        <div class="col-md-6">
+          <a href="{% url 'shop' %}">
+             <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
+           </a>
+        </div>
+      </div>
+      {% comment %} <div class="row">
+        <div class="col-md-12">
+          <label class="text-black h4" for="coupon">Coupon</label>
+          <p>Enter your coupon code if you have one.</p>
+        </div>
+        <div class="col-md-8 mb-3 mb-md-0">
+          <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-black">Apply Coupon</button>
+        </div>
+      </div> {% endcomment %}
+    </div>
+    <div class="col-md-6 pl-5">
+      <div class="row justify-content-end">
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-md-12 text-right border-bottom mb-5">
+              <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <span class="text-black">Subtotal</span>
+            </div>
+            <div class="col-md-6 text-right">
+              <strong class="text-black" id="amount">{{totalAmount}}</strong>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col-md-6">
+              <span class="text-black">Total</span>
+            </div>
+            <div class="col-md-6 text-right">
+              <strong class="text-black" id="totalamount">{{totalAmount}}</strong>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <a href="{% url 'checkout' %}">
+              <button class="btn btn-black btn-lg py-3 btn-block">Proceed To Checkout</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="container text-center py-5">
+  {% comment %} <img src="{% static 'app/images/cart.svg' %}" alt="Empty Cart" style="width:100px; opacity:0.5;"> {% endcomment %}
+  <span class="display-3 thankyou-icon text-primary">
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-check mb-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M11.354 5.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+      <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+    </svg>
+    </span>
+  <h3 class="mt-4 mb-3">Your cart is empty</h3>
+  <p>Continue shopping to add products to your cart!</p>
+  <a href="{% url 'shop' %}" class="btn btn-black mt-3">Back to store</a>
+</div>
+{% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      function updateCart(productId, action) {
+          fetch("{% url 'update_cart' %}", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": "{{ csrf_token }}"
+              },
+              body: JSON.stringify({
+                  product_id: productId,
+                  action: action
+              })
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.error) {
+                  alert(data.error);
+                  return;
+              }
+              // Cập nhật quantity và total của từng sản phẩm
+              document.querySelectorAll('a[pid]').forEach(function(btn) {
+                  if (btn.getAttribute('pid') == data.product_id) {
+                      // Tìm input quantity gần nhất
+                      let tr = btn.closest('tr');
+                      if (tr) {
+                          tr.querySelector('.quantity-amount').value = data.quantity;
+                          tr.querySelector('.product-total span').textContent = '$' + data.item_total;
+                      }
+                  }
+              });
+              // Cập nhật subtotal và total
+              document.getElementById('amount').textContent = '$' + data.subtotal;
+              document.getElementById('totalamount').textContent = '$' + data.total;
+          });
+      }
+  
+      // Nút tăng
+      document.querySelectorAll('.increase').forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+              e.preventDefault();
+              let pid = btn.closest('a[pid]').getAttribute('pid');
+              updateCart(pid, "increase");
+          });
+      });
+  
+      // Nút giảm
+      document.querySelectorAll('.decrease').forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+              e.preventDefault();
+              let pid = btn.closest('a[pid]').getAttribute('pid');
+              updateCart(pid, "decrease");
+          });
+      });
+  }); 
+ 
+  // Nút xóa
+  document.querySelectorAll('.remove-cart').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          let pid = btn.getAttribute('pid');
+          fetch("{% url 'remove_cart' %}", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": "{{ csrf_token }}"
+              },
+              body: JSON.stringify({
+                  product_id: pid
+              })
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.error) {
+                  alert(data.error);
+                  return;
+              }
+              // Xóa dòng sản phẩm khỏi bảng
+              let tr = btn.closest('tr');
+              if (tr) tr.remove();
+              // Cập nhật subtotal và total
+              document.getElementById('amount').textContent = '$' + data.subtotal;
+              document.getElementById('totalamount').textContent = '$' + data.total;
+              // Nếu không còn sản phẩm nào, reload lại trang để hiện thông báo giỏ hàng trống
+              if (document.querySelectorAll('.remove-cart').length === 0) {
+                  location.reload();
+              }
+          });
+      });
+  });
+ 
+  </script>
+
+{% endblock %}
+

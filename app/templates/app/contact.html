@@ -1,0 +1,78 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Contact</h1>
+                    <p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
+                    <p><a href="{% url 'shop' %}" class="btn btn-secondary me-2">Shop Now</a><a href="{% url 'about' %}" class="btn btn-white-outline">Explore</a></p>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="hero-img-wrap">
+                    <img src="{% static 'app/images/couch.png' %}" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hero Section -->
+
+
+<!-- Start Contact Form -->
+<div class="untree_co-section">
+<div class="container">
+<div class="block">
+<div class="row justify-content-center">
+<div class="col-md-8 col-lg-8 pb-4">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          {{ form.firstname.label_tag }}
+          {{ form.firstname }}
+          {% if form.firstname.errors %}<div class="text-danger">{{ form.firstname.errors }}</div>{% endif %}
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          {{ form.lastname.label_tag }}
+          {{ form.lastname }}
+          {% if form.lastname.errors %}<div class="text-danger">{{ form.lastname.errors }}</div>{% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      {% if form.email.errors %}<div class="text-danger">{{ form.email.errors }}</div>{% endif %}
+    </div>
+    <div class="form-group mb-5">
+      {{ form.message.label_tag }}
+      {{ form.message }}
+      {% if form.message.errors %}<div class="text-danger">{{ form.message.errors }}</div>{% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary-hover-outline">Send Message</button>
+  </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- End Contact Form -->
+{% endblock %}

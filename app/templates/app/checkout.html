@@ -1,0 +1,120 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Checkout</h1>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hero Section -->
+
+<div class="untree_co-section">
+<div class="container">
+  <form method="post" action={% url 'checkout' %}>
+    {% csrf_token %}
+   
+    <div class="row">
+      <div class="col-md-6 mb-5 mb-md-0">
+        <h2 class="h3 mb-3 text-black">Billing Details</h2>
+        <div class="p-3 p-lg-5 border bg-white">
+          
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="c_fname" name="c_fname">
+            </div>
+            <div class="col-md-6">
+              <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="c_lname" name="c_lname">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label for="c_companyname" class="text-black">Company Name </label>
+              <input type="text" class="form-control" id="c_companyname" name="c_companyname">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="c_address" name="c_address">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="c_phone" name="c_phone">
+            </div>
+          </div>
+
+
+         
+          
+          
+
+              
+                
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-5">
+          <div class="col-md-12">
+            <h2 class="h3 mb-3 text-black">Your order</h2>
+            <div class="p-3 p-lg-5 border bg-white">
+              <table class="table site-block-order-table mb-5">
+                <thead>
+                  <th>Product</th>
+                  <th>Total</th>
+                </thead>
+                <tbody>
+                  {% for cart in cart_items %}
+                    <tr>
+                      <td>{{ cart.product.title }} <strong class="mx-2">x</strong> {{ cart.quantity }}</td>
+                      <td>{{ cart.quantity }} x ${{ cart.product.price|floatformat:0 }} = ${{ cart.total|floatformat:0 }}</td>
+                    </tr>
+                  {% endfor %}
+                  <tr>
+                    <td class="text-black font-weight-bold"><strong>Subtotal</strong></td>
+                    <td class="text-black">${{ total|floatformat:0 }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-black font-weight-bold"><strong>Total</strong></td>
+                    <td class="text-black font-weight-bold"><strong>${{ total|floatformat:0 }}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="form-group d-flex gap-3">
+                <button type="submit" name="order_type" value="normal" class="btn btn-black btn-lg py-3 btn-block mr-2">Cash on delivery</button>
+                <button type="submit" name="order_type" value="paypal" class="btn btn-primary btn-lg py-3 btn-block">PayPal payment</button>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+
+
+
+
+{% endblock %}
+

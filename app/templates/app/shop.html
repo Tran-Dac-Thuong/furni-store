@@ -1,0 +1,136 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Shop</h1>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hero Section -->
+
+
+
+<div class="untree_co-section product-section before-footer-section">
+  
+<div class="container">
+
+    <nav aria-label="breadcrumb" class="mb-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item fs-5"><a href="{% url 'shop' %}">All</a></li>
+          <li class="breadcrumb-item fs-5"><a href="{% url 'category' 'SF' %}">Sofa</a></li>
+          <li class="breadcrumb-item fs-5"><a href="{% url 'category' 'DC' %}">Dining chair</a></li>
+          <li class="breadcrumb-item fs-5"><a href="{% url 'category' 'OC' %}">Office chair</a></li>
+          <li class="breadcrumb-item fs-5"><a href="{% url 'category' 'RC' %}">Relaxing chair</a></li>
+          <li class="breadcrumb-item fs-5"><a href="{% url 'category' 'OC' %}">Outdoor Chairs</a></li>
+        </ol>
+      </nav>
+
+      {% if page_obj %}
+      <div class="row">
+
+
+        {% for item in page_obj %}
+          <!-- Start Column 1 -->
+        <div class="col-12 col-md-4 col-lg-3 mb-5">
+            <a class="product-item" href="{% url 'detail' item.id %}">
+                <img src="{{item.image.url}}" class="img-fluid product-thumbnail">
+                <h3 class="product-title">{{item.title}}</h3>
+                <strong class="product-price">${{item.price}}</strong>
+
+                <span class="icon-cross">
+                    <img src="{% static 'app/images/cross.svg' %}" class="img-fluid">
+                </span>
+            </a>
+        </div> 
+        <!-- End Column 1 -->
+        {% endfor %}
+            
+        
+        
+
+      </div>
+
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page=1" aria-label="First">
+                <span aria-hidden="true">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">&laquo;&laquo;</span>
+            </li>
+            <li class="page-item disabled">
+              <span class="page-link">&laquo;</span>
+            </li>
+          {% endif %}
+      
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+      
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                <span aria-hidden="true">&raquo;&raquo;</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">&raquo;</span>
+            </li>
+            <li class="page-item disabled">
+              <span class="page-link">&raquo;&raquo;</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% else %}
+
+      <div class="container text-center py-5">
+        {% comment %} <img src="{% static 'app/images/cart.svg' %}" alt="Empty Cart" style="width:100px; opacity:0.5;"> {% endcomment %}
+        <span class="display-3 thankyou-icon text-primary">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-check mb-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.354 5.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+            <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+          </svg>
+          </span>
+        <h3 class="mt-4 mb-3">No products found</h3>
+        <a href="{% url 'home' %}" class="btn btn-black mt-3">Back to home</a>
+      </div>
+      {% endif %}
+</div>
+
+
+</div>
+{% endblock %}
