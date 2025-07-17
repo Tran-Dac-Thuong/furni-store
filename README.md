@@ -14,6 +14,17 @@ Email: testPaypalAccount@personal.com
 
 Password: 345345345
 
-## Installation Guide
+## Build Setup
+
+```bash
+# install venv
+python -m venv env
+
+# active venv
+env\Scripts\activate.bat
+
+# install dependencies
+pip install -r requirements.txt
+```
 
 Open PostgreSQL (pgAdmin 4) and run the attached furni.sql file to create a database named furni with available data.
